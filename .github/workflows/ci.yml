@@ -26,7 +26,7 @@ jobs:
           pip install -r requirements-test.txt
           pip install .
       - name: python-flake8
-          uses: julianwachholz/flake8-action@75749239077651dfd0ecbe405899cdcb0673ee8f
+        uses: julianwachholz/flake8-action@75749239077651dfd0ecbe405899cdcb0673ee8f
         with:
           checkName: python-flake8
       - name: Run pytest
