@@ -2,9 +2,8 @@ import unittest
 import tempfile
 import uuid
 
-from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from ..models.base import Base, get_session, get_engine
+from ..models.base import Base, get_engine
 from ..models.User import UserModel
 from ..lib.Config import Config
 from ..lib.Encryption import Encryption

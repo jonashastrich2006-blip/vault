@@ -48,7 +48,8 @@ def migrate(vault_path, config_path, new_vault_path=None):
 
     # Ask user to input master key
     key = menu.get_input(
-        message=' * Enter your master key to begin the migration: ', secure=True, check_timer=False)
+        message=' * Enter your master key to begin the migration: ', 
+        secure=True, check_timer=False)
 
     # Unlock the vault
     try:
@@ -84,7 +85,9 @@ def migrate(vault_path, config_path, new_vault_path=None):
     print()
     print('The migration is now complete!')
     print('Restart the application to use Vault 2.')
-    print('Your old vault is stored in `%s`. You can discard this file after ensuring that all your data was migrated properly.'
+    print('Your old vault is stored in `%s`. ' \
+        'You can discard this file after ' \
+        'ensuring that all your data was migrated properly.'
           % (vault_path))
     print('Your new vault is stored in `%s`.' % (new_vault_path))
     print()

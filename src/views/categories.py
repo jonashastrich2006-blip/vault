@@ -16,7 +16,9 @@ def all():
         Return a list of all categories
     """
 
-    return get_session().query(CategoryModel).filter(CategoryModel.active == 1).order_by(CategoryModel.id).all()
+    return (get_session().query(CategoryModel)
+                         .filter(CategoryModel.active == 1)
+                         .order_by(CategoryModel.id).all())
 
 
 def to_table(rows=[]):
@@ -42,7 +44,8 @@ def pick(message='Select a category: ', optional=False):
 
     if len(all_categories) == 0:
         print()
-        print('You did not create any category yet. You can create one from the main menu.')
+        print('You did not create any category yet. ' \
+        'You can create one from the main menu.')
         return False
 
     # Display available categories
@@ -76,7 +79,8 @@ def exists(id_):
         Check if a category ID exists
     """
 
-    if get_session().query(CategoryModel).filter(CategoryModel.id == int(id_)).filter(CategoryModel.active == 1).first():
+    if (get_session().query(CategoryModel).filter(CategoryModel.id == int(id_))
+                    .filter(CategoryModel.active == 1).first()):
         return True
 
     return False
@@ -91,7 +95,8 @@ def get_name(id_):
         return ''
 
     cat = get_session().query(CategoryModel).filter(
-        CategoryModel.id == int(id_)).filter(CategoryModel.active == 1).first()
+        CategoryModel.id == (int(id_)).filter(CategoryModel.active == 1)
+                                      .first())
 
     if cat:
         return cat.name
@@ -157,7 +162,8 @@ def rename(id_, new_name):
     """
 
     cat = get_session().query(CategoryModel).filter(
-        CategoryModel.id == int(id_)).filter(CategoryModel.active == 1).first()
+        CategoryModel.id == (int(id_)).filter(CategoryModel.active == 1)
+                                      .first())
 
     if cat:
         cat.name = new_name
@@ -205,7 +211,8 @@ def delete(id_):
     """
 
     cat = get_session().query(CategoryModel).filter(
-        CategoryModel.id == int(id_)).filter(CategoryModel.active == 1).first()
+        CategoryModel.id == (int(id_)).filter(CategoryModel.active == 1)
+                                      .first())
 
     if cat:
         cat.active = 0
@@ -233,10 +240,12 @@ def delete_input():
     if is_used(id_):
         print()
         print(
-            'The category cannot be deleted because it is currently used by some secrets.')
+            'The category cannot be deleted because it '
+            'is currently used by some secrets.')
         return False
 
-    if confirm('Confirm deletion of the category "' + get_name(id_) + '"?', False):
+    if confirm('Confirm deletion of the category "' 
+               + get_name(id_) + '"?', False):
         result = delete(id_)
 
         if result is True:
@@ -276,7 +285,8 @@ def main_menu():
 
         print()
         command = menu.get_input(
-            message='Choose a command [(a)dd a category / (r)rename a category / (d)elete a category / (b)ack to Vault]: ',
+            message='Choose a command [(a)dd a category / '
+            '(r)rename a category / (d)elete a category / (b)ack to Vault]: ',
             lowercase=True,
             non_locking_values=['l', 'q']
         )

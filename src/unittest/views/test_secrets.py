@@ -1,7 +1,5 @@
 from unittest.mock import patch
 
-import pyperclip
-
 from ..base import BaseTest
 from ...models.Secret import SecretModel
 from ...models.Category import CategoryModel
@@ -351,7 +349,8 @@ class Test(BaseTest):
     def test_edit_input_8(self):
         # Edit login (simulate Ctr-c)
         with patch('builtins.input', return_value=False):
-            self.assertFalse(secrets.edit_input('login', secrets.get_by_id(1)))
+            self.assertFalse(secrets.edit_input('login',
+                                                 secrets.get_by_id(1)))
 
     def test_edit_input_9(self):
         # Edit password
@@ -379,7 +378,8 @@ class Test(BaseTest):
     def test_edit_input_12(self):
         # Edit notes (simulate Ctr-c)
         with patch('builtins.input', return_value=False):
-            self.assertFalse(secrets.edit_input('notes', secrets.get_by_id(1)))
+            self.assertFalse(secrets.edit_input('notes', 
+                                                secrets.get_by_id(1)))
 
     def test_edit_input_13(self):
         # Edit an invalid column: should raise a ValueError
@@ -445,7 +445,8 @@ class Test(BaseTest):
             return False
 
         with patch.object(menu, 'get_input', side_effect=fake_get_input):
-            with patch.object(autocomplete, 'get_input_autocomplete', return_value=False):
+            with patch.object(autocomplete, 'get_input_autocomplete', 
+                              return_value=False):
                 with patch.object(secrets, 'all_categories', return_value=[]):
                     with patch('src.views.secrets.clear_screen'):
                         self.assertFalse(secrets.add_input())
@@ -461,9 +462,12 @@ class Test(BaseTest):
             return 'val'
 
         with patch.object(menu, 'get_input', side_effect=fake_get_input):
-            with patch.object(autocomplete, 'get_input_autocomplete', return_value='login'):
-                with patch('passwordgenerator.pwgenerator.generate', return_value='suggestion'):
-                    with patch.object(secrets, 'all_categories', return_value=[]):
+            with patch.object(autocomplete, 'get_input_autocomplete',
+                              return_value='login'):
+                with patch('passwordgenerator.pwgenerator.generate', 
+                           return_value='suggestion'):
+                    with patch.object(secrets, 'all_categories', 
+                                      return_value=[]):
                         with patch('src.views.secrets.clear_screen'):
                             self.assertFalse(secrets.add_input())
 
@@ -472,10 +476,13 @@ class Test(BaseTest):
         from ...views import menu
         from ...modules import autocomplete
         with patch.object(menu, 'get_input', return_value='val'):
-            with patch.object(autocomplete, 'get_input_autocomplete', return_value='login'):
+            with patch.object(autocomplete, 'get_input_autocomplete', 
+                              return_value='login'):
                 with patch('getpass.getpass', return_value='pw'):
-                    with patch.object(secrets, 'notes_input', return_value=False):
-                        with patch.object(secrets, 'all_categories', return_value=[]):
+                    with patch.object(secrets, 'notes_input', 
+                                      return_value=False):
+                        with patch.object(secrets, 'all_categories', 
+                                          return_value=[]):
                             with patch('src.views.secrets.clear_screen'):
                                 self.assertFalse(secrets.add_input())
 
@@ -502,7 +509,7 @@ class Test(BaseTest):
         """Test item_menu with 'p' (copy password) command."""
         from ...views import clipboard
         secret = secrets.get_by_id(1)
-        with patch.object(clipboard, 'copy') as mock_copy:
+        with patch.object(clipboard, 'copy'):
             with patch.object(clipboard, 'wait'):
                 call_count = [0]
 
@@ -520,7 +527,7 @@ class Test(BaseTest):
         """Test item_menu with 'u' (copy url) command."""
         from ...views import clipboard
         secret = secrets.get_by_id(1)
-        with patch.object(clipboard, 'copy') as mock_copy:
+        with patch.object(clipboard, 'copy'):
             with patch.object(clipboard, 'wait'):
                 call_count = [0]
 
@@ -537,7 +544,8 @@ class Test(BaseTest):
     def test_item_menu_o_command(self):
         """Test item_menu with 'o' (show) command."""
         secret = secrets.get_by_id(1)
-        with patch.object(secrets, 'show_secret', return_value='q') as mock_show:
+        with patch.object(secrets, 'show_secret', 
+                          return_value='q') as mock_show:
             call_count = [0]
 
             def fake_get_input(*args, **kwargs):
@@ -554,7 +562,8 @@ class Test(BaseTest):
     def test_item_menu_e_command(self):
         """Test item_menu with 'e' (edit) command."""
         secret = secrets.get_by_id(1)
-        with patch.object(secrets, 'item_menu_edit', return_value='q') as mock_edit:
+        with patch.object(secrets, 'item_menu_edit', 
+                          return_value='q') as mock_edit:
             call_count = [0]
 
             def fake_get_input(*args, **kwargs):

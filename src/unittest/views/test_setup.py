@@ -3,9 +3,6 @@ import uuid
 
 from ..base import BaseTest
 from ...views import setup
-from ...models.base import get_session
-from ...models.User import UserModel
-from ...modules.carry import global_scope
 
 
 class Test(BaseTest):

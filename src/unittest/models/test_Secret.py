@@ -1,5 +1,4 @@
 from unittest.mock import patch
-import uuid
 
 from ..base import BaseTest
 from ...models.Secret import SecretModel

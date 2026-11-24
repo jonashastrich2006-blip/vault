@@ -23,7 +23,8 @@ def copy(to_copy, name='password', erase=False):
     try:
         pyperclip.copy(to_copy)
     except pyperclip.PyperclipException:
-        print('* Error: could not find a copy/paste mechanism for your system')
+        print('* Error: could not find a copy/paste ' \
+        'mechanism for your system')
         return False
 
     if not erase:
@@ -71,7 +72,7 @@ def wait():
             # Stop timer if clipboard content has changed
             if is_changed():
                 break
-    except KeyboardInterrupt as e:
+    except KeyboardInterrupt:
         # Will catch `^-c` and immediately erase the clipboard
         pass
 
@@ -86,6 +87,7 @@ def erase():
 
     global clipboard_signature
 
-    if not is_changed():  # We will not empty the clipboard if its content has changed
+    if not is_changed():  # We will not empty the clipboard 
+        # if its content has changed
         copy(to_copy='', erase=True)  # Empty clipboard
     clipboard_signature = ''  # Reset clipboard signature

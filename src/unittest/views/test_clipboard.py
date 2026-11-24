@@ -14,7 +14,8 @@ class Test(BaseTest):
         patched.return_value = None
         clipboard.copy('some string')
         self.assertEqual(clipboard.get_signature(
-            'some string'), '61d034473102d7dac305902770471fd50f4c5b26f6831a56dd90b5184b3c30fc')
+        'some string'), 
+        '61d034473102d7dac305902770471fd50f4c5b26f6831a56dd90b5184b3c30fc')
 
     @patch.object(pyperclip, 'copy')
     def test_copy_none(self, patched):
@@ -39,7 +40,8 @@ class Test(BaseTest):
 
     def test_getSignature(self):
         self.assertEqual(clipboard.get_signature(
-            'some string'), '61d034473102d7dac305902770471fd50f4c5b26f6831a56dd90b5184b3c30fc')
+        'some string'), 
+        '61d034473102d7dac305902770471fd50f4c5b26f6831a56dd90b5184b3c30fc')
 
     @patch.object(pyperclip, 'copy')
     @patch.object(pyperclip, 'paste')
@@ -79,7 +81,8 @@ class Test(BaseTest):
         clipboard.erase()
         self.assertEqual(clipboard.clipboard_signature, '')
 
-    @patch.object(pyperclip, 'copy', side_effect=pyperclip.PyperclipException('no clipboard'))
+    @patch.object(pyperclip, 'copy', 
+                  side_effect=pyperclip.PyperclipException('no clipboard'))
     def test_copy_exception(self, *_):
         """Test clipboard.copy when pyperclip raises an exception."""
         self.assertFalse(clipboard.copy('text'))

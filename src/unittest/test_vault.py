@@ -2,14 +2,11 @@ import tempfile
 from pathlib import Path
 from unittest.mock import patch
 import os
-import uuid
 
 from .base import BaseTest
 from .. import vault
-from ..modules import misc
 from ..modules.carry import global_scope
-from ..lib.Config import Config
-from ..views import menu, setup, change_key
+from ..views import menu, change_key
 
 
 class Test(BaseTest):
@@ -30,7 +27,8 @@ class Test(BaseTest):
 
     def test_check_directory(self):
         self.assertIsInstance(vault.check_directory(
-            os.path.expanduser('~') + '/.vault/.secure.db', os.path.expanduser('~') + '/.vault/.config'), bool)
+            os.path.expanduser('~') + '/.vault/.secure.db', 
+            os.path.expanduser('~') + '/.vault/.config'), bool)
 
     def test_check_directory_2(self):
         # Set temporary files
@@ -71,7 +69,8 @@ class Test(BaseTest):
         Path(file_vault.name).touch()
 
         self.assertRaises(SystemExit, vault.initialize,
-                          file_vault.name, self.conf_path.name + '/config', erase=True)
+                          file_vault.name, 
+                          self.conf_path.name + '/config', erase=True)
 
     @patch.object(change_key, 'rekey')
     def test_initialize_3(self, patched):
@@ -84,7 +83,8 @@ class Test(BaseTest):
         Path(file_vault.name).touch()
 
         self.assertRaises(SystemExit, vault.initialize,
-                          file_vault.name, self.conf_path.name + '/config', rekey_vault=True)
+                          file_vault.name, self.conf_path.name + '/config', 
+                          rekey_vault=True)
 
     @patch.object(vault, 'import_')
     def test_initialize_4(self, patched):
@@ -97,7 +97,8 @@ class Test(BaseTest):
         Path(file_vault.name).touch()
 
         self.assertRaises(SystemExit, vault.initialize,
-                          file_vault.name, self.conf_path.name + '/config', import_items=True)
+                          file_vault.name, self.conf_path.name + '/config', 
+                          import_items=True)
 
     @patch.object(vault, 'export_')
     def test_initialize_5(self, patched):
@@ -110,7 +111,8 @@ class Test(BaseTest):
         Path(file_vault.name).touch()
 
         self.assertRaises(SystemExit, vault.initialize,
-                          file_vault.name, self.conf_path.name + '/config', export=True)
+                          file_vault.name, self.conf_path.name + '/config', 
+                          export=True)
 
     @patch.object(vault.setup, 'initialize')
     @patch.object(vault, 'unlock')

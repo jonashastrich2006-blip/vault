@@ -50,9 +50,10 @@ def query_vault_db():
     try:
         get_session(True).execute(text('SELECT * FROM sqlite_master'))
         return True
-    except exc.DatabaseError as e:
+    except exc.DatabaseError:
         # print('Database Error: %s' % e)
-        # print('Most likely, this error is due to an invalid database key or a mis-configured sqlcipher3/libsqlcipher')
+        # print('Most likely, this error is due to an invalid database key 
+        # or a mis-configured sqlcipher3/libsqlcipher')
         return False
 
 
@@ -71,7 +72,8 @@ def attempt_dummy_encrypted_db(db_path):
     """ Create a dummy encrypted database """
 
     engine = create_engine(
-        'sqlite+pysqlcipher://:' + create_temporary_secret() + '@//' + db_path,
+        'sqlite+pysqlcipher://:' + create_temporary_secret() 
+        + '@//' + db_path,
         module=sqlcipher3)
     # engine = create_engine('sqlite:///' + db_path)
     connection = engine.connect()
@@ -91,7 +93,7 @@ def verify_if_dummy_db_is_encrypted(db_path):
 
         # If query is successful, then the database is not encrypted
         return False
-    except exc.DatabaseError as e:
+    except exc.DatabaseError:
         # sqlite3.DatabaseError: file is not a database
         # print(str(e))
         return True
@@ -103,12 +105,14 @@ if __name__ == '__main__':
         print('* Create dummy database: OK')
     else:
         print(
-            '!!! Create dummy database: ERROR (Dummy encrypted database could not be created)')
+            '!!! Create dummy database: ERROR '
+            '(Dummy encrypted database could not be created)')
 
     if verify_if_dummy_db_is_encrypted(temp_db_file):
         print('* Check if dummy database is encrypted: OK')
     else:
-        print('!!! Check if dummy database is encrypted: ERROR (Dummy database is not encrypted)')
+        print('!!! Check if dummy database is encrypted: ERROR '
+        '(Dummy database is not encrypted)')
 
     load_config()
     set_vault_path()
@@ -126,7 +130,8 @@ if __name__ == '__main__':
             print('* Attempt to query vault: OK')
         else:
             print(
-                '!!! Attempt to query vault: ERROR (Database is not encrypted with supplied key)')
+                '!!! Attempt to query vault: ERROR '
+                '(Database is not encrypted with supplied key)')
 
         drop_sessions()
 

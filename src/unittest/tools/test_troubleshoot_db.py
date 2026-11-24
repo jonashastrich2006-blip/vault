@@ -4,7 +4,6 @@ from tempfile import NamedTemporaryFile
 
 import sqlcipher3
 from sqlalchemy import create_engine, text
-from sqlalchemy.orm import Session
 
 from ..base import BaseTest
 from ...lib.Encryption import Encryption
@@ -107,6 +106,5 @@ class Test(BaseTest):
 
         # Test with unencrypted database
         db_path = troubleshoot_db.create_temporary_file()
-        engine = create_engine('sqlite:///' + db_path)
         res = troubleshoot_db.verify_if_dummy_db_is_encrypted(db_path)
         assert res is False

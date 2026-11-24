@@ -55,7 +55,6 @@ class Test(BaseTest):
 
     def test_encrypt_2(self):
         secret_string = b'my secret string'
-        salt = self.enc2.gen_salt()
         encrypted = self.enc2.encrypt(secret_string)
         self.assertIsInstance(encrypted, bytes)
         self.assertTrue(len(encrypted) > 0)

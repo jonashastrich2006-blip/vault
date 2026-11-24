@@ -1,5 +1,5 @@
 from ..base import BaseTest
-from ...models.base import get_session, sessions
+from ...models.base import get_session
 from ...models import base
 from ...models.User import UserModel
 from ...views import users
@@ -30,7 +30,8 @@ class Test(BaseTest):
 
         # Get inserted row
         user = get_session().query(UserModel).filter(
-            UserModel.key == 'key_validation').order_by(UserModel.id.desc()).first()
+            UserModel.key == ('key_validation')
+                            .order_by(UserModel.id.desc()).first())
 
         # Re-create key + salt
         key_salt = global_scope['enc'].key + \

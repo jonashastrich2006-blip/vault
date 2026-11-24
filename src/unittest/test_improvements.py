@@ -1,7 +1,8 @@
 """
 Comprehensive test suite for vault improvements - Core Modules Only.
 
-Tests Config instance isolation, encryption padding validation, and edge cases.
+Tests Config instance isolation, encryption padding validation, 
+and edge cases.
 """
 
 import tempfile
@@ -170,7 +171,8 @@ class TestEncryptionPaddingValidation:
 
     def test_encrypt_decrypt_various_lengths(self):
         """Test encryption/decryption with various secret lengths"""
-        test_secrets = [b'', b'a', b'ab', b'abcdef', b'0123456789abcdef', b'x' * 100]
+        test_secrets = [b'', b'a', b'ab', b'abcdef',
+                         b'0123456789abcdef', b'x' * 100]
 
         for secret in test_secrets:
             encrypted = self.encryption.encrypt(secret)

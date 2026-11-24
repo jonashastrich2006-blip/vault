@@ -25,8 +25,8 @@ class Test(BaseTest):
         with patch('builtins.input', return_value='y'):
             with patch('getpass.getpass', return_value=self.legacy_password):
                 self.assertTrue(migration.migrate(vault_path=self.vault_path,
-                                                  config_path=self.config_path.name,
-                                                  new_vault_path=file_.name))
+                                config_path=self.config_path.name,
+                                new_vault_path=file_.name))
 
     def test_migrate_2(self):
         # Migration with confirmation denied
@@ -35,13 +35,14 @@ class Test(BaseTest):
         with patch('builtins.input', return_value='n'):
             with patch('getpass.getpass', return_value=self.legacy_password):
                 self.assertFalse(migration.migrate(vault_path=self.vault_path,
-                                                   config_path=self.config_path.name,
-                                                   new_vault_path=file_.name))
+                                config_path=self.config_path.name,
+                                new_vault_path=file_.name))
 
     def test_migrate_3(self):
         with patch('getpass.getpass', return_value='some invalid password'):
             self.assertRaises(SystemExit, migration.migrate,
-                              vault_path=self.vault_path, config_path=self.config_path.name)
+                              vault_path=self.vault_path, 
+                              config_path=self.config_path.name)
 
     def update_config(self):
         migration.update_config()
@@ -49,7 +50,8 @@ class Test(BaseTest):
         self.assertEqual(migration.config.encrypteddb, True)
 
     def test_unlock(self):
-        vault_content = migration.unlock(self.vault_path, self.legacy_password)
+        vault_content = migration.unlock(self.vault_path, 
+                                         self.legacy_password)
         self.assertIsInstance(vault_content, dict)
         self.assertIsInstance(vault_content['secrets'], list)
         self.assertIsInstance(vault_content['categories'], list)
@@ -57,10 +59,12 @@ class Test(BaseTest):
     def test_get_hash(self):
         migration.config = Config(self.config_path.name)
         self.assertEqual(migration.get_hash(
-            self.legacy_password), b'\xd3\xbe[{\xad6k^|\xd7\xbe\x9f\xd5\xef7o\xd7\xbbq\xce\xf7\xe9\xb7x')
+        self.legacy_password), 
+        b'\xd3\xbe[{\xad6k^|\xd7\xbe\x9f\xd5\xef7o\xd7\xbbq\xce\xf7\xe9\xb7x')
 
     def test_prepare_items(self):
-        vault_content = migration.unlock(self.vault_path, self.legacy_password)
+        vault_content = migration.unlock(self.vault_path, 
+                                         self.legacy_password)
         prepared = migration.prepare_items(
             vault_content['secrets'], vault_content['categories'])
 
@@ -81,14 +85,17 @@ class Test(BaseTest):
     def test_get_category_name(self):
         # With valid ID
         self.assertEqual(migration.get_category_name(id_=0, categories=[
-            {'name': 'Business', 'active': True}, {'name': 'Perso', 'active': True}]), 'Business')
+            {'name': 'Business', 'active': True}, 
+            {'name': 'Perso', 'active': True}]), 'Business')
 
     def test_get_category_name_2(self):
         # With invalid category
         self.assertIsNone(migration.get_category_name(id_=1, categories=[
-            {'name': 'Business', 'active': True}, {'name': 'Perso', 'active': False}]))
+            {'name': 'Business', 'active': True}, 
+            {'name': 'Perso', 'active': False}]))
 
     def test_get_category_name_3(self):
         # Without an ID
         self.assertIsNone(migration.get_category_name(id_=None, categories=[
-                          {'name': 'Business', 'active': True}, {'name': 'Perso', 'active': True}]))
+                          {'name': 'Business', 'active': True}, 
+                          {'name': 'Perso', 'active': True}]))

@@ -12,7 +12,11 @@ from ..models.Secret import SecretModel
 from ..modules.misc import confirm, clear_screen
 from ..modules.carry import global_scope
 from ..modules import autocomplete
-from .categories import get_name as get_category_name, pick, all as all_categories
+from .categories import (
+    get_name as get_category_name,
+    pick,
+    all as all_categories,
+    )
 from . import clipboard, menu
 
 
@@ -30,11 +34,12 @@ def to_table(rows=[]):
     """
 
     # Retrieve id and name
-    all_secrets = [[secret.id, get_category_name(secret.category_id), secret.name,
-                    secret.url, secret.login] for secret in rows]
+    all_secrets = [[secret.id, get_category_name(secret.category_id),
+                    secret.name, secret.url, secret.login] for secret in rows]
 
     if len(all_secrets) > 0:
-        return tabulate(all_secrets, headers=['Item', 'Category', 'Name', 'URL', 'Login'])
+        return tabulate(all_secrets, 
+                        headers=['Item', 'Category', 'Name', 'URL', 'Login'])
     else:
         return 'Empty!'
 
@@ -116,7 +121,8 @@ def add_input():
     category_id = None
     if len(all_categories()) > 0:
         category_id = pick(
-            message='* Choose a category number (or leave empty for none): ', optional=True)
+            message='* Choose a category number (or leave empty for none): ',
+            optional=True)
         if category_id is False:
             return False
 
@@ -226,13 +232,15 @@ def search(query):
     query = '%' + str(query) + '%'
 
     return get_session().query(SecretModel) \
-        .filter(or_(SecretModel.name.like(query), SecretModel.url.like(query), SecretModel.login.like(query))) \
+        .filter(or_(SecretModel.name.like(query), SecretModel.url.like(query),
+                    SecretModel.login.like(query))) \
         .order_by(SecretModel.id).all()
 
 
 def search_dispatch(query):
     """
-        Run a user search. If the query is an integer we will first search by id, otherwise,
+        Run a user search. If the query is an integer 
+        we will first search by id, otherwise,
         it will be a keyword based search
     """
 
@@ -263,7 +271,8 @@ def search_input():
         print('Empty search!')
         return False
 
-    # To prevent fat-finger errors, the search menu will also respond to common commands
+    # To prevent fat-finger errors, 
+    # the search menu will also respond to common commands
     if query in ['s', 'a', 'l', 'q']:  # Common commands
         return query
     elif query == 'b':  # Return to previous menu
@@ -300,7 +309,8 @@ def search_results(rows):
 
     # Ask user input
     input_ = menu.get_input(
-        message='Select a result # or type any key to go back to the main menu: ')
+        message='Select a result # or type any key to ' \
+        'go back to the main menu: ')
 
     if input_:
         try:
@@ -342,8 +352,15 @@ def item_menu(item):
 
     while True:
         command = menu.get_input(
-            message='Choose a command [%s%s%s%s%s%s / (e)dit / (d)elete / (s)earch / (b)ack to Vault]: ' % (
-                    'copy ' if item.login or item.password or item.url else '',
+            message='Choose a command [%s%s%s%s%s%s /'
+                    '(e)dit / '
+                    '(d)elete / '
+                    '(s)earch / '
+                    '(b)ack to Vault]: ' % (
+                    'copy ' if item.login 
+                            or item.password 
+                            or item.url 
+                            else '',
                     '(l)ogin, ' if item.login else '',
                     '(p)assword' if item.password else '',
                     ' or ' if (
@@ -385,7 +402,14 @@ def item_menu_edit(item):
     """
 
     command = menu.get_input(
-        message='Choose what you would like to edit [(c)ategory / (n)ame  / (u)rl / (l)ogin / (p)assword / n(o)tes / (b)ack to Vault]: ',
+        message='Choose what you would like to edit '
+                '[(c)ategory / '
+                '(n)ame  / '
+                '(u)rl / '
+                '(l)ogin / '
+                '(p)assword / ' \
+                'n(o)tes / '
+                '(b)ack to Vault]: ',
         lowercase=True,
         non_locking_values=['l', 'q']
     )

@@ -4,7 +4,10 @@ import sys
 import argparse
 
 from .lib.Config import Config
-from .modules.misc import logo, create_directory_if_missing, assess_integrity, erase_vault
+from .modules.misc import (logo, 
+                           create_directory_if_missing, 
+                           assess_integrity,
+                           erase_vault)
 from .views import setup, change_key
 from .views.menu import unlock
 from .views.import_export import import_, export_
@@ -22,7 +25,6 @@ def get_vault_path(override=None):
         Returns the vault location (either default or user defined)
     """
 
-    global vault_path_default
 
     if override:
         return override
@@ -34,7 +36,6 @@ def get_config_path(override=None):
         Returns the config location (either default or user defined)
     """
 
-    global config_path_default
 
     if override:
         return override
@@ -52,7 +53,9 @@ def check_directory(vault_path, config_path):
     return None
 
 
-def config_update(clipboard_TTL=None, auto_lock_TTL=None, hide_secret_TTL=None):
+def config_update(clipboard_TTL=None, 
+                  auto_lock_TTL=None, 
+                  hide_secret_TTL=None):
     """
         Update config
     """
@@ -65,7 +68,10 @@ def config_update(clipboard_TTL=None, auto_lock_TTL=None, hide_secret_TTL=None):
         return global_scope['conf'].update('hideSecretTTL', hide_secret_TTL)
 
 
-def initialize(vault_location_override, config_location_override, erase=None, clipboard_TTL=None, auto_lock_TTL=None, hide_secret_TTL=None, rekey_vault=None, import_items=None, export=None, file_format='json'):
+def initialize(vault_location_override, config_location_override, erase=None, 
+               clipboard_TTL=None, auto_lock_TTL=None, hide_secret_TTL=None, 
+               rekey_vault=None, import_items=None, export=None, 
+               file_format='json'):
     # Some nice ascii art
     logo()
 
@@ -101,7 +107,8 @@ def initialize(vault_location_override, config_location_override, erase=None, cl
     # Change vault key - BUG FIX: This feature was marked as not implemented
     if rekey_vault:
         print()
-        print("Please consider backing up your vault located at `%s` before proceeding." % (
+        print("Please consider backing up your vault located at `%s` " \
+        "before proceeding." % (
             vault_path))
         change_key.rekey()
         sys.exit()
@@ -109,7 +116,8 @@ def initialize(vault_location_override, config_location_override, erase=None, cl
     # Import items in the vault
     if import_items:
         print()
-        print("Please consider backing up your vault located at `%s` before proceeding." % (
+        print("Please consider backing up your vault located at `%s` " \
+        "before proceeding." % (
             vault_path))
         import_(format_=file_format, path=import_items)
         sys.exit()
@@ -134,11 +142,14 @@ def main():
     # Parse arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("-t", "--clipboard_TTL", type=int,
-                        help="Set clipboard TTL (in seconds, default: 15)", nargs='?', const=15)
+                        help="Set clipboard TTL (in seconds, default: 15)", 
+                        nargs='?', const=15)
     parser.add_argument("-p", "--hide_secret_TTL", type=int,
-                        help="Set delay before hiding a printed password (in seconds, default: 15)", nargs='?', const=5)
+                        help="Set delay before hiding a printed password "
+                        "(in seconds, default: 15)", nargs='?', const=5)
     parser.add_argument("-a", "--auto_lock_TTL", type=int,
-                        help="Set auto lock TTL (in seconds, default: 900)", nargs='?', const=900)
+                        help="Set auto lock TTL (in seconds, default: 900)", 
+                        nargs='?', const=900)
     parser.add_argument("-v", "--vault_location",
                         type=str, help="Set vault path")
     parser.add_argument("-c", "--config_location",
@@ -149,7 +160,8 @@ def main():
                         help="File to import credentials from")
     parser.add_argument("-x", "--export", type=str,
                         help="File to export credentials to")
-    parser.add_argument("-f", "--file_format", type=str, help="Import/export file format (default: 'json')",
+    parser.add_argument("-f", "--file_format", type=str, 
+                        help="Import/export file format (default: 'json')",
                         choices=['json'], nargs='?', default='json')
     parser.add_argument("-e", "--erase_vault", action='store_true',
                         help="Erase the vault and config file")

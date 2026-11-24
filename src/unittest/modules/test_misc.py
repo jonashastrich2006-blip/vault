@@ -27,7 +27,7 @@ class Test(BaseTest):
 
     def test_create_directory_if_missing_3(self):
         # Test invalid path
-        with tempfile.TemporaryDirectory() as dir_:
+        with tempfile.TemporaryDirectory():
             self.assertRaises(
                 SystemExit, misc.create_directory_if_missing, '\0')
 
@@ -64,11 +64,13 @@ class Test(BaseTest):
 
         with patch('src.modules.misc.confirm', return_value=True):
             self.assertRaises(SystemExit, misc.erase_vault,
-                              file_a.name + '/non/existent', file_b.name + '/non/existent')
+                              file_a.name + '/non/existent', 
+                              file_b.name + '/non/existent')
 
         with patch('src.modules.misc.confirm', return_value=False):
             self.assertRaises(SystemExit, misc.erase_vault,
-                              file_a.name + '/non/existent', file_b.name + '/non/existent')
+                              file_a.name + '/non/existent', 
+                              file_b.name + '/non/existent')
 
     def test_confirm(self):
         with patch('builtins.input', return_value='y'):
@@ -131,5 +133,6 @@ class Test(BaseTest):
 
     def test_lock_prefix_not_supported(self):
         """Test lock_prefix when unicode is not supported."""
-        with patch('src.modules.misc.is_unicode_supported', return_value=False):
+        with patch('src.modules.misc.is_unicode_supported', 
+                   return_value=False):
             self.assertEqual(misc.lock_prefix(), '')

@@ -3,7 +3,6 @@ import time
 import getpass
 
 from ..modules.carry import global_scope
-from ..models.base import get_engine, get_session
 from ..modules.misc import lock_prefix, clear_screen, logo_small
 from ..lib.Encryption import Encryption
 from . import secrets, users, categories
@@ -11,7 +10,8 @@ from . import secrets, users, categories
 timer = None
 
 
-def get_input(message='', secure=False, lowercase=False, check_timer=True, non_locking_values=[]):
+def get_input(message='', secure=False, lowercase=False, 
+              check_timer=True, non_locking_values=[]):
     """
         Get and return user input
     """
@@ -104,7 +104,8 @@ def menu(next_command=None):
         else:  # otherwise, ask for user input
             print()
             command = get_input(
-                message='Choose a command [(s)earch / show (all) / (a)dd / (cat)egories / (l)ock / (q)uit]: ',
+                message='Choose a command [(s)earch / show (all) / (a)dd / '
+                        '(cat)egories / (l)ock / (q)uit]: ',
                 lowercase=True,
                 non_locking_values=['l', 'q'])
 
@@ -172,7 +173,9 @@ def check_autolock_timer():
 
     global timer
 
-    if timer and int(time.time()) > timer + int(global_scope['conf'].autoLockTTL):
+    if (timer and int(time.time()) > timer 
+        + int(global_scope['conf'].autoLockTTL)):
+    
         print()
         print("The vault has been locked due to inactivity.")
         lock()
@@ -180,7 +183,8 @@ def check_autolock_timer():
 
 def check_then_set_autolock_timer():
     """
-        Check auto lock timer and lock the vault if necessary, then set it again
+        Check auto lock timer and lock the vault if necessary, 
+        then set it again
     """
 
     check_autolock_timer()

@@ -1,7 +1,6 @@
 from unittest.mock import patch
 
 from ..base import BaseTest
-from ...models.Secret import SecretModel
 from ...views import menu
 from ...modules.carry import global_scope
 
@@ -108,7 +107,8 @@ class Test(BaseTest):
         with patch.object(secrets, 'to_table', return_value='table'):
             with patch.object(secrets, 'all', return_value=[]):
                 with patch.object(secrets, 'count', return_value=0):
-                    with patch.object(secrets, 'search_input', return_value='q'):
+                    with patch.object(secrets, 'search_input', 
+                                      return_value='q'):
                         call_count = [0]
 
                         def fake_get_input(*args, **kwargs):
@@ -117,7 +117,8 @@ class Test(BaseTest):
                                 return 'all'
                             return 'q'
 
-                        with patch.object(menu, 'get_input', side_effect=fake_get_input):
+                        with patch.object(menu, 'get_input', 
+                                          side_effect=fake_get_input):
                             with self.assertRaises(SystemExit):
                                 menu.menu()
 
@@ -136,7 +137,8 @@ class Test(BaseTest):
                         return 'a'
                     return 'q'
 
-                with patch.object(menu, 'get_input', side_effect=fake_get_input):
+                with patch.object(menu, 'get_input', 
+                                  side_effect=fake_get_input):
                     with self.assertRaises(SystemExit):
                         menu.menu()
 
@@ -200,7 +202,8 @@ class Test(BaseTest):
         """Test menu with 'search' command."""
         from ...views import secrets
         with patch.object(secrets, 'count', return_value=0):
-            with patch.object(secrets, 'search_input', return_value='q') as mock_search:
+            with patch.object(secrets, 'search_input', 
+                              return_value='q') as mock_search:
                 call_count = [0]
 
                 def fake_get_input(*args, **kwargs):
@@ -209,7 +212,8 @@ class Test(BaseTest):
                         return 's'
                     return 'q'
 
-                with patch.object(menu, 'get_input', side_effect=fake_get_input):
+                with patch.object(menu, 'get_input', 
+                                  side_effect=fake_get_input):
                     with self.assertRaises(SystemExit):
                         menu.menu()
                     mock_search.assert_called_once()

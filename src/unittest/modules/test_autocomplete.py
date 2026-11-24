@@ -59,7 +59,8 @@ class Test(BaseTest):
             with patch('readline.parse_and_bind') as mock_bind:
                 with patch('readline.set_completer'):
                     with patch('builtins.input', return_value='  hello  '):
-                        result = autocomplete.get_input_autocomplete('prompt: ')
+                        result = (autocomplete
+                        .get_input_autocomplete('prompt: '))
                         self.assertEqual(result, 'hello')
                         mock_bind.assert_called_with("bind ^I rl_complete")
 
@@ -69,7 +70,8 @@ class Test(BaseTest):
             with patch('readline.parse_and_bind') as mock_bind:
                 with patch('readline.set_completer'):
                     with patch('builtins.input', return_value='test'):
-                        result = autocomplete.get_input_autocomplete('prompt: ')
+                        result = (autocomplete
+                        .get_input_autocomplete('prompt: '))
                         self.assertEqual(result, 'test')
                         mock_bind.assert_called_with("tab: complete")
 
@@ -78,8 +80,10 @@ class Test(BaseTest):
         with patch('readline.__doc__', 'GNU readline'):
             with patch('readline.parse_and_bind'):
                 with patch('readline.set_completer'):
-                    with patch('builtins.input', side_effect=KeyboardInterrupt):
-                        result = autocomplete.get_input_autocomplete('prompt: ')
+                    with patch('builtins.input', 
+                               side_effect=KeyboardInterrupt):
+                        result = (autocomplete
+                        .get_input_autocomplete('prompt: '))
                         self.assertFalse(result)
 
     def test_find_breaking_strings(self):

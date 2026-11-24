@@ -29,9 +29,13 @@ def validation_key_validate(key):
 
     # validation key from database
     try:
-        user = get_session().query(UserModel).filter(
-            UserModel.key == 'key_validation').order_by(UserModel.id.desc()).first()
-    except exc.DatabaseError:  # In case of encrypted db, if the encryption key is invalid
+        user = ( get_session().query(UserModel)
+            .filter(UserModel.key == 'key_validation')
+            .order_by(UserModel.id.desc())
+            .first()
+        )
+    except exc.DatabaseError:  
+        # In case of encrypted db, if the encryption key is invalid
         # Drop db sessions to force a re-connection with the new key
         drop_sessions()
 
@@ -56,8 +60,11 @@ def validation_key_rekey(newenc):
     """
 
     # Get validation key
-    user = get_session().query(UserModel).filter(
-        UserModel.key == 'key_validation').order_by(UserModel.id.desc()).first()
+    user = (get_session().query(UserModel)
+        .filter(UserModel.key == 'key_validation')
+        .order_by(UserModel.id.desc())
+        .first()
+    )
 
     if user:
         key_salt = newenc.key + \

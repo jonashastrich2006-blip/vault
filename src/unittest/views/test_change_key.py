@@ -1,8 +1,5 @@
 from unittest.mock import patch
 
-from sqlalchemy import engine
-from sqlalchemy.orm import Session
-
 from ..base import BaseTest
 from ...views import change_key
 from ...modules.carry import global_scope
