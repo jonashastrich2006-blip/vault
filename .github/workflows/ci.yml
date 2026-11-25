@@ -31,6 +31,8 @@ jobs:
           checkName: python-flake8
       - name: gh-action-pip-audit
         uses: pypa/gh-action-pip-audit@d499194be74aeb3bc7dbed3a224a87e1831132c7
+      - name: Bandit Action
+        uses: mdegis/bandit-action@851671cb116c1d3638de86975006bddf2619362a
       - name: Run pytest
         run: |
           coverage run --source=. -m pytest
