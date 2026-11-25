@@ -29,6 +29,8 @@ jobs:
         uses: julianwachholz/flake8-action@75749239077651dfd0ecbe405899cdcb0673ee8f
         with:
           checkName: python-flake8
+      - name: gh-action-pip-audit
+        uses: pypa/gh-action-pip-audit@d499194be74aeb3bc7dbed3a224a87e1831132c7
       - name: Run pytest
         run: |
           coverage run --source=. -m pytest
