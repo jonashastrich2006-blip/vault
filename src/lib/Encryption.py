@@ -51,7 +51,7 @@ class Encryption():
 
     def set_salt(self, salt=None):
         """
-            Add a salt to the secret key for this 
+            Add a salt to the secret key for this
             specific encryption or decryption
         """
 
@@ -97,7 +97,7 @@ class Encryption():
             Decrypted secret as bytes
 
         Raises:
-            ValueError: If padding is invalid 
+            ValueError: If padding is invalid
             (indicates tampering or wrong key)
         """
         # Decode base 64
