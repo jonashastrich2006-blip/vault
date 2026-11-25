@@ -30,7 +30,8 @@ def logo_small():
 
 def create_directory_if_missing(dir_):
     """
-        Create the vault and configuration file storage folder if it does not exist
+        Create the vault and configuration file storage folder
+        if it does not exist
     """
 
     try:
@@ -107,7 +108,8 @@ def erase_vault(vault_path, config_path):
 
 def confirm(prompt=None, resp=False):
     """
-        Source: http://code.activestate.com/recipes/541096-prompt-the-user-for-confirmation/
+        Source: http://code.activestate.com/recipes/
+        541096-prompt-the-user-for-confirmation/
 
         prompts for yes or no response from the user. Returns True for yes
         and False for no.

@@ -31,7 +31,7 @@ def autocomplete(text, state):
 
     results = [c for c in comp if c.startswith(buffer)] + [None]
 
-    # Handle breaking characters by truncating strings 
+    # Handle breaking characters by truncating strings
     # at the last breaking character
     strip_pos = find_breaking_strings(buffer)
     if strip_pos > 0:
@@ -58,9 +58,9 @@ def get_input_autocomplete(message=''):
     """ Allow user to type input and provide auto-completion """
 
     # Apple does not ship GNU readline with OS X.
-    # It does ship BSD libedit which includes a 
+    # It does ship BSD libedit which includes a
     # readline compatibility interface.
-    # Source: 
+    # Source:
     # https://stackoverflow.com/questions/7116038/
     # python-tab-completion-mac-osx-10-7-lion
     if 'libedit' in readline.__doc__:
