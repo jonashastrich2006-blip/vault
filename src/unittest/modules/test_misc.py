@@ -1,3 +1,4 @@
+import os
 import tempfile
 from unittest.mock import patch
 
@@ -16,25 +17,36 @@ class Test(BaseTest):
     def test_create_directory_if_missing(self):
         # When the folder exists
         with tempfile.TemporaryDirectory() as dir_:
-            self.assertFalse(misc.create_directory_if_missing(
-                dir_))
+            self.assertFalse(
+                misc.create_directory_if_missing(dir_)
+            )
 
     def test_create_directory_if_missing_2(self):
         # When the folder is missing
         with tempfile.TemporaryDirectory() as dir_:
-            self.assertTrue(misc.create_directory_if_missing(
-                dir_ + '/some/dir'))
+            self.assertTrue(
+                misc.create_directory_if_missing(
+                    dir_ + '/some/dir'
+                )
+            )
 
     def test_create_directory_if_missing_3(self):
         # Test invalid path
         with tempfile.TemporaryDirectory():
             self.assertRaises(
-                SystemExit, misc.create_directory_if_missing, '\0')
+                SystemExit,
+                misc.create_directory_if_missing,
+                '\0'
+            )
 
     def test_assess_integrity(self):
         with tempfile.NamedTemporaryFile() as file_:
-            self.assertRaises(SystemExit, misc.assess_integrity,
-                              file_.name, 'non_existent')
+            self.assertRaises(
+                SystemExit,
+                misc.assess_integrity,
+                file_.name,
+                'non_existent'
+            )
 
     def test_erase_vault(self):
         # Create fake files
@@ -48,12 +60,20 @@ class Test(BaseTest):
         file_b.close()
 
         with patch('src.modules.misc.confirm', return_value=True):
-            self.assertRaises(SystemExit, misc.erase_vault,
-                              file_a.name, file_b.name)
+            self.assertRaises(
+                SystemExit,
+                misc.erase_vault,
+                file_a.name,
+                file_b.name
+            )
 
         with patch('src.modules.misc.confirm', return_value=False):
-            self.assertRaises(SystemExit, misc.erase_vault,
-                              file_a.name, file_b.name)
+            self.assertRaises(
+                SystemExit,
+                misc.erase_vault,
+                file_a.name,
+                file_b.name
+            )
 
     def test_erase_vault_2(self):
         # Test with non existent files
@@ -63,14 +83,20 @@ class Test(BaseTest):
         file_b = tempfile.NamedTemporaryFile()
 
         with patch('src.modules.misc.confirm', return_value=True):
-            self.assertRaises(SystemExit, misc.erase_vault,
-                              file_a.name + '/non/existent', 
-                              file_b.name + '/non/existent')
+            self.assertRaises(
+                SystemExit,
+                misc.erase_vault,
+                file_a.name + '/non/existent',
+                file_b.name + '/non/existent'
+            )
 
         with patch('src.modules.misc.confirm', return_value=False):
-            self.assertRaises(SystemExit, misc.erase_vault,
-                              file_a.name + '/non/existent', 
-                              file_b.name + '/non/existent')
+            self.assertRaises(
+                SystemExit,
+                misc.erase_vault,
+                file_a.name + '/non/existent',
+                file_b.name + '/non/existent'
+            )
 
     def test_confirm(self):
         with patch('builtins.input', return_value='y'):
@@ -101,15 +127,21 @@ class Test(BaseTest):
 
     def test_erase_vault_files_removed(self):
         """Test that erase_vault actually removes the files."""
-        import os
         fa = tempfile.NamedTemporaryFile(delete=False)
         fb = tempfile.NamedTemporaryFile(delete=False)
         fa.write(b'x')
         fa.close()
         fb.write(b'y')
         fb.close()
+
         with patch('src.modules.misc.confirm', return_value=True):
-            self.assertRaises(SystemExit, misc.erase_vault, fa.name, fb.name)
+            self.assertRaises(
+                SystemExit,
+                misc.erase_vault,
+                fa.name,
+                fb.name
+            )
+
         self.assertFalse(os.path.isfile(fa.name))
         self.assertFalse(os.path.isfile(fb.name))
 
@@ -133,6 +165,8 @@ class Test(BaseTest):
 
     def test_lock_prefix_not_supported(self):
         """Test lock_prefix when unicode is not supported."""
-        with patch('src.modules.misc.is_unicode_supported', 
-                   return_value=False):
+        with patch(
+            'src.modules.misc.is_unicode_supported',
+            return_value=False
+        ):
             self.assertEqual(misc.lock_prefix(), '')

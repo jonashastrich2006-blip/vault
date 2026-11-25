@@ -1,13 +1,16 @@
 """
 Comprehensive test suite for vault improvements - Core Modules Only.
 
-Tests Config instance isolation, encryption padding validation, 
+Tests Config instance isolation, encryption padding validation,
 and edge cases.
 """
 
-import tempfile
+import base64
 import os
+import tempfile
+
 import pytest
+
 from ..lib.Config import Config
 from ..lib.Encryption import Encryption
 
@@ -171,8 +174,10 @@ class TestEncryptionPaddingValidation:
 
     def test_encrypt_decrypt_various_lengths(self):
         """Test encryption/decryption with various secret lengths"""
-        test_secrets = [b'', b'a', b'ab', b'abcdef',
-                         b'0123456789abcdef', b'x' * 100]
+        test_secrets = [
+            b'', b'a', b'ab', b'abcdef',
+            b'0123456789abcdef', b'x' * 100
+        ]
 
         for secret in test_secrets:
             encrypted = self.encryption.encrypt(secret)
@@ -257,7 +262,6 @@ class TestEdgeCases:
 
     def test_encryption_base64_output(self):
         """Test that encryption output is valid base64"""
-        import base64
         enc = Encryption(b'test_key')
         secret = b'test_secret'
         encrypted = enc.encrypt(secret)

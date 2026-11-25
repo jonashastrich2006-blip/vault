@@ -1,10 +1,11 @@
+import time
 from unittest.mock import patch
 
 import pyperclip
 
 from ..base import BaseTest
-from ...views import clipboard
 from ...modules.carry import global_scope
+from ...views import clipboard
 
 
 class Test(BaseTest):
@@ -13,9 +14,10 @@ class Test(BaseTest):
     def test_copy(self, patched):
         patched.return_value = None
         clipboard.copy('some string')
-        self.assertEqual(clipboard.get_signature(
-        'some string'), 
-        '61d034473102d7dac305902770471fd50f4c5b26f6831a56dd90b5184b3c30fc')
+        self.assertEqual(
+            clipboard.get_signature('some string'),
+            '61d034473102d7dac305902770471fd50f4c5b26f6831a56dd90b5184b3c30fc'
+        )
 
     @patch.object(pyperclip, 'copy')
     def test_copy_none(self, patched):
@@ -25,13 +27,17 @@ class Test(BaseTest):
     @patch.object(pyperclip, 'paste')
     def test_is_changed(self, patched):
         patched.return_value = 'some string'
-        clipboard.clipboard_signature = clipboard.get_signature('some string')
+        clipboard.clipboard_signature = clipboard.get_signature(
+            'some string'
+        )
         self.assertFalse(clipboard.is_changed())
 
     @patch.object(pyperclip, 'paste')
     def test_is_changed_2(self, patched):
         patched.return_value = 'some other string'
-        clipboard.clipboard_signature = clipboard.get_signature('some string')
+        clipboard.clipboard_signature = clipboard.get_signature(
+            'some string'
+        )
         self.assertTrue(clipboard.is_changed())
 
     def test_is_changed_3(self):
@@ -39,16 +45,19 @@ class Test(BaseTest):
         self.assertIsNone(clipboard.is_changed())
 
     def test_getSignature(self):
-        self.assertEqual(clipboard.get_signature(
-        'some string'), 
-        '61d034473102d7dac305902770471fd50f4c5b26f6831a56dd90b5184b3c30fc')
+        self.assertEqual(
+            clipboard.get_signature('some string'),
+            '61d034473102d7dac305902770471fd50f4c5b26f6831a56dd90b5184b3c30fc'
+        )
 
     @patch.object(pyperclip, 'copy')
     @patch.object(pyperclip, 'paste')
     def test_wait(self, patched, patched2):
         patched.return_value = 'some string'
         patched2.return_value = 'some string'
-        clipboard.clipboard_signature = clipboard.get_signature('some string')
+        clipboard.clipboard_signature = clipboard.get_signature(
+            'some string'
+        )
         # Ensure we have a short wait time
         global_scope['conf'].update('clipboardTTL', '1')
 
@@ -60,7 +69,9 @@ class Test(BaseTest):
     def test_wait_2(self, patched, patched2):
         patched.return_value = 'some other string'
         patched2.return_value = 'some string'
-        clipboard.clipboard_signature = clipboard.get_signature('some string')
+        clipboard.clipboard_signature = clipboard.get_signature(
+            'some string'
+        )
         # Ensure we have a short wait time
         global_scope['conf'].update('clipboardTTL', '1')
 
@@ -81,8 +92,11 @@ class Test(BaseTest):
         clipboard.erase()
         self.assertEqual(clipboard.clipboard_signature, '')
 
-    @patch.object(pyperclip, 'copy', 
-                  side_effect=pyperclip.PyperclipException('no clipboard'))
+    @patch.object(
+        pyperclip,
+        'copy',
+        side_effect=pyperclip.PyperclipException('no clipboard')
+    )
     def test_copy_exception(self, *_):
         """Test clipboard.copy when pyperclip raises an exception."""
         self.assertFalse(clipboard.copy('text'))
@@ -91,9 +105,10 @@ class Test(BaseTest):
     @patch.object(pyperclip, 'paste')
     def test_wait_keyboard_interrupt(self, mock_paste, mock_copy):
         """Test clipboard.wait when KeyboardInterrupt is raised."""
-        import time
         mock_paste.return_value = 'some string'
-        clipboard.clipboard_signature = clipboard.get_signature('some string')
+        clipboard.clipboard_signature = clipboard.get_signature(
+            'some string'
+        )
 
         def fake_sleep(_):
             raise KeyboardInterrupt
