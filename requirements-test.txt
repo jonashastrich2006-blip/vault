@@ -1,4 +1,7 @@
 pycodestyle
 coverage
 pytest
-setuptools
+setuptools>=84.1.0
+flake8
+bandit
+pip-audit
