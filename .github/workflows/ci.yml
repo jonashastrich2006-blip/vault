@@ -46,5 +46,3 @@ jobs:
           flags: py${{ matrix.python-version }}
           # Fork PRs get no secrets and upload tokenless; only fail hard on pushes
           fail_ci_if_error: ${{ github.event_name == 'push' }}
-      - name: Build Docker image
-        run: docker build -t vault:ci .
