@@ -29,15 +29,21 @@ class Test(BaseTest):
         users.validation_key_new()
 
         # Get inserted row
-        user = get_session().query(UserModel).filter(
-            UserModel.key == ('key_validation')
-                            .order_by(UserModel.id.desc()).first())
+        user = (
+            get_session()
+            .query(UserModel)
+            .filter(UserModel.key == 'key_validation')
+            .order_by(UserModel.id.desc())
+            .first()
+        )
 
         # Re-create key + salt
-        key_salt = global_scope['enc'].key + \
-            global_scope['conf'].salt.encode()
+        key_salt = (
+            global_scope['enc'].key
+            + global_scope['conf'].salt.encode()
+        )
 
-        self.assertEqual(global_scope['enc'].decrypt(user.value), (key_salt))
+        self.assertEqual(global_scope['enc'].decrypt(user.value), key_salt)
 
     def test_validation_key_validate(self):
         self.assertTrue(users.validation_key_validate(
