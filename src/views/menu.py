@@ -171,7 +171,6 @@ def check_autolock_timer():
         Check auto lock timer and lock the vault if necessary
     """
 
-
     if (timer and int(time.time()) > timer + int(
             global_scope['conf'].autoLockTTL)):
 

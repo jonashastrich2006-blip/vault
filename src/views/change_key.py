@@ -5,7 +5,7 @@ from .setup import get_key_input
 from ..modules.carry import global_scope
 from ..lib.Encryption import Encryption
 from .users import validation_key_rekey
-from ..models.base import get_session, get_engine
+from ..models.base import get_session
 # The following models are imported for schema creation
 
 enc_current = enc_new = None
