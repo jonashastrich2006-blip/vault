@@ -21,10 +21,10 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install --yes gcc python3-dev libsqlcipher-dev
-          pip install -U pip
+          sudo apt-get install --yes --no-install-recommends gcc python3-dev libsqlcipher-dev
+          python -m pip install --upgrade pip "setuptools>=84.1.0"
           pip install -r requirements-test.txt
-          pip install .
+          pip install --no-build-isolation --no-deps .
       - name: python-flake8
         uses: julianwachholz/flake8-action@75749239077651dfd0ecbe405899cdcb0673ee8f
         with:
