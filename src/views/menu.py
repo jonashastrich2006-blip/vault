@@ -10,7 +10,7 @@ from . import secrets, users, categories
 timer = None
 
 
-def get_input(message='', secure=False, lowercase=False, 
+def get_input(message='', secure=False, lowercase=False,
               check_timer=True, non_locking_values=[]):
     """
         Get and return user input
@@ -171,11 +171,10 @@ def check_autolock_timer():
         Check auto lock timer and lock the vault if necessary
     """
 
-    global timer
 
-    if (timer and int(time.time()) > timer 
-        + int(global_scope['conf'].autoLockTTL)):
-    
+    if (timer and int(time.time()) > timer + int(
+            global_scope['conf'].autoLockTTL)):
+
         print()
         print("The vault has been locked due to inactivity.")
         lock()
@@ -183,7 +182,7 @@ def check_autolock_timer():
 
 def check_then_set_autolock_timer():
     """
-        Check auto lock timer and lock the vault if necessary, 
+        Check auto lock timer and lock the vault if necessary,
         then set it again
     """
 

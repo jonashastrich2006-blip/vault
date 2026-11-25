@@ -1,18 +1,12 @@
 # Import/export view
 
-import sys
-
-from sqlalchemy.orm import Session
-
 from . import menu, secrets
 from .setup import get_key_input
 from ..modules.carry import global_scope
 from ..lib.Encryption import Encryption
 from .users import validation_key_rekey
-from ..models.base import Base, get_session, get_engine
-from ..models.Category import CategoryModel  # Imported for schema creation
-from ..models.Secret import SecretModel  # Imported for schema creation
-from ..models.User import UserModel  # Imported for schema creation
+from ..models.base import get_session, get_engine
+# The following models are imported for schema creation
 
 enc_current = enc_new = None
 
@@ -105,8 +99,12 @@ def rekey_db():
     from hashlib import sha256
 
     # Get the current and new database keys
-    current_key = sha256(enc_current.key + global_scope['conf'].salt.encode()).hexdigest()
-    new_key = sha256(enc_new.key + global_scope['conf'].salt.encode()).hexdigest()
+    current_key = sha256(
+        enc_current.key + global_scope['conf'].salt.encode()
+    ).hexdigest()
+    new_key = sha256(
+        enc_new.key + global_scope['conf'].salt.encode()
+    ).hexdigest()
 
     # Open connection to the database with the current key
     conn = sqlcipher3.connect(global_scope['db_file'])

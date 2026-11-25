@@ -1,5 +1,3 @@
-
-
 from ..models.base import Base, get_session, get_engine
 from ..modules.carry import global_scope
 from .users import validation_key_new
@@ -33,10 +31,10 @@ def initialize(salt):
 
             print()
             print("Your vault has been created "
-            "and encrypted with your master key.")
+                  "and encrypted with your master key.")
             print("Your unique salt is: %s " % (salt))
             print(
-                "Write it down. If you lose your config file " \
+                "Write it down. If you lose your config file "
                 "you will need it to unlock your vault.")
 
             return True
@@ -64,10 +62,10 @@ def get_key_input():
     if key is False:
         return False
     repeat = get_input(
-        message='Please confirm your master key:', 
-        secure=True, 
+        message='Please confirm your master key:',
+        secure=True,
         check_timer=False
-        )
+    )
     if repeat is False:
         return False
 
@@ -85,8 +83,8 @@ def is_key_valid(key):
 
     if len(key) < 8:
         print()
-        print("The master key should be at least 8 characters. \
-              Please try again!")
+        print("The master key should be at least 8 characters. "
+              "Please try again!")
         print()
 
         return False
@@ -101,8 +99,8 @@ def check_key_and_repeat(key, repeat):
 
     if key != repeat:
         print()
-        print('The master key does not match its confirmation. \
-              Please try again!')
+        print('The master key does not match its confirmation. '
+              'Please try again!')
         print()
 
         return False

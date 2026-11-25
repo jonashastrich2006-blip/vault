@@ -17,8 +17,8 @@ def all():
     """
 
     return (get_session().query(CategoryModel)
-                         .filter(CategoryModel.active == 1)
-                         .order_by(CategoryModel.id).all())
+            .filter(CategoryModel.active == 1)
+            .order_by(CategoryModel.id).all())
 
 
 def to_table(rows=[]):
@@ -44,8 +44,8 @@ def pick(message='Select a category: ', optional=False):
 
     if len(all_categories) == 0:
         print()
-        print('You did not create any category yet. ' \
-        'You can create one from the main menu.')
+        print('You did not create any category yet. '
+              'You can create one from the main menu.')
         return False
 
     # Display available categories
@@ -79,8 +79,9 @@ def exists(id_):
         Check if a category ID exists
     """
 
-    if (get_session().query(CategoryModel).filter(CategoryModel.id == int(id_))
-                    .filter(CategoryModel.active == 1).first()):
+    if (get_session().query(CategoryModel)
+            .filter(CategoryModel.id == int(id_))
+            .filter(CategoryModel.active == 1).first()):
         return True
 
     return False
@@ -94,9 +95,12 @@ def get_name(id_):
     if not id_:
         return ''
 
-    cat = get_session().query(CategoryModel).filter(
-        CategoryModel.id == (int(id_)).filter(CategoryModel.active == 1)
-                                      .first())
+    cat = (
+        get_session().query(CategoryModel)
+        .filter(CategoryModel.id == int(id_))
+        .filter(CategoryModel.active == 1)
+        .first()
+    )
 
     if cat:
         return cat.name
@@ -161,9 +165,12 @@ def rename(id_, new_name):
         Rename a category
     """
 
-    cat = get_session().query(CategoryModel).filter(
-        CategoryModel.id == (int(id_)).filter(CategoryModel.active == 1)
-                                      .first())
+    cat = (
+        get_session().query(CategoryModel)
+        .filter(CategoryModel.id == int(id_))
+        .filter(CategoryModel.active == 1)
+        .first()
+    )
 
     if cat:
         cat.name = new_name
@@ -210,9 +217,12 @@ def delete(id_):
         Disable a category
     """
 
-    cat = get_session().query(CategoryModel).filter(
-        CategoryModel.id == (int(id_)).filter(CategoryModel.active == 1)
-                                      .first())
+    cat = (
+        get_session().query(CategoryModel)
+        .filter(CategoryModel.id == int(id_))
+        .filter(CategoryModel.active == 1)
+        .first()
+    )
 
     if cat:
         cat.active = 0
@@ -244,8 +254,8 @@ def delete_input():
             'is currently used by some secrets.')
         return False
 
-    if confirm('Confirm deletion of the category "' 
-               + get_name(id_) + '"?', False):
+    if confirm('Confirm deletion of the category "' + get_name(id_) + '"?',
+               False):
         result = delete(id_)
 
         if result is True:

@@ -16,7 +16,7 @@ from .categories import (
     get_name as get_category_name,
     pick,
     all as all_categories,
-    )
+)
 from . import clipboard, menu
 
 
@@ -38,7 +38,7 @@ def to_table(rows=[]):
                     secret.name, secret.url, secret.login] for secret in rows]
 
     if len(all_secrets) > 0:
-        return tabulate(all_secrets, 
+        return tabulate(all_secrets,
                         headers=['Item', 'Category', 'Name', 'URL', 'Login'])
     else:
         return 'Empty!'
@@ -63,10 +63,12 @@ def get_by_id(id_):
 def get_names(limit=2000):
     """ Return secret's names for auto-completion """
 
-    results = get_session().query(SecretModel.name).\
-        filter(SecretModel.name != '').\
-        limit(limit).\
-        all()
+    results = (
+        get_session().query(SecretModel.name)
+        .filter(SecretModel.name != '')
+        .limit(limit)
+        .all()
+    )
 
     if results:
         return [result.name for result in results]
@@ -79,12 +81,14 @@ def get_top_logins(limit=10):
 
     count_ = func.count('*')
 
-    results = get_session().query(SecretModel.login, count_).\
-        filter(SecretModel.login != '').\
-        group_by(SecretModel.login).\
-        order_by(count_.desc()).\
-        limit(limit).\
-        all()
+    results = (
+        get_session().query(SecretModel.login, count_)
+        .filter(SecretModel.login != '')
+        .group_by(SecretModel.login)
+        .order_by(count_.desc())
+        .limit(limit)
+        .all()
+    )
 
     if results:
         return [result.login for result in results]
@@ -239,7 +243,7 @@ def search(query):
 
 def search_dispatch(query):
     """
-        Run a user search. If the query is an integer 
+        Run a user search. If the query is an integer
         we will first search by id, otherwise,
         it will be a keyword based search
     """
@@ -271,7 +275,7 @@ def search_input():
         print('Empty search!')
         return False
 
-    # To prevent fat-finger errors, 
+    # To prevent fat-finger errors,
     # the search menu will also respond to common commands
     if query in ['s', 'a', 'l', 'q']:  # Common commands
         return query
@@ -309,8 +313,8 @@ def search_results(rows):
 
     # Ask user input
     input_ = menu.get_input(
-        message='Select a result # or type any key to ' \
-        'go back to the main menu: ')
+        message='Select a result # or type any key to '
+                'go back to the main menu: ')
 
     if input_:
         try:
@@ -357,17 +361,17 @@ def item_menu(item):
                     '(d)elete / '
                     '(s)earch / '
                     '(b)ack to Vault]: ' % (
-                    'copy ' if item.login 
-                            or item.password 
-                            or item.url 
-                            else '',
-                    '(l)ogin, ' if item.login else '',
-                    '(p)assword' if item.password else '',
-                    ' or ' if (
-                        item.login or item.password) and item.url else '',
-                    '(u)rl to clipboard' if item.url else '',
-                    ' / sh(o)w password' if item.password else '',
-            ),
+                        'copy ' if item.login
+                        or item.password
+                        or item.url
+                        else '',
+                        '(l)ogin, ' if item.login else '',
+                        '(p)assword' if item.password else '',
+                        ' or ' if (
+                            item.login or item.password) and item.url else '',
+                        '(u)rl to clipboard' if item.url else '',
+                        ' / sh(o)w password' if item.password else '',
+                    ),
             lowercase=True,
             non_locking_values=['l', 'q']
         )
@@ -407,7 +411,7 @@ def item_menu_edit(item):
                 '(n)ame  / '
                 '(u)rl / '
                 '(l)ogin / '
-                '(p)assword / ' \
+                '(p)assword / '
                 'n(o)tes / '
                 '(b)ack to Vault]: ',
         lowercase=True,

@@ -19,7 +19,7 @@ from ..lib.Encryption import Encryption
 
     The format name must also be added to `src/vault.py` in argparse choices.
 
-    If you create a format that can be useful to others, 
+    If you create a format that can be useful to others,
     please fork the project first and submit a merge request!
 """
 
@@ -74,7 +74,7 @@ def import_from_json(path=None, rows=None):
         Import a Json file
     """
 
-    # Ask user to unlock the vault 
+    # Ask user to unlock the vault
     # (except if its already unlocked in migration)
     if not isinstance(global_scope['enc'], Encryption):
         unlock()
@@ -91,7 +91,7 @@ def import_from_json(path=None, rows=None):
     print()
     print(to_table(
         [[row['name'], row['url'], row['login'],
-        row['category']] for row in rows]))
+          row['category']] for row in rows]))
     print()
 
     if confirm('Confirm import?', False):
