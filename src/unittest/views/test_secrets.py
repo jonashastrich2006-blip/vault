@@ -349,8 +349,8 @@ class Test(BaseTest):
     def test_edit_input_8(self):
         # Edit login (simulate Ctr-c)
         with patch('builtins.input', return_value=False):
-            self.assertFalse(secrets.edit_input('login',
-                                                 secrets.get_by_id(1)))
+            self.assertFalse(secrets.edit_input(
+                'login', secrets.get_by_id(1)))
 
     def test_edit_input_9(self):
         # Edit password

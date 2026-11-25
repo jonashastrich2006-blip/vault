@@ -51,7 +51,8 @@ class Encryption():
 
     def set_salt(self, salt=None):
         """
-            Add a salt to the secret key for this specific encryption or decryption
+            Add a salt to the secret key for this 
+            specific encryption or decryption
         """
 
         if salt:
@@ -96,7 +97,8 @@ class Encryption():
             Decrypted secret as bytes
 
         Raises:
-            ValueError: If padding is invalid (indicates tampering or wrong key)
+            ValueError: If padding is invalid 
+            (indicates tampering or wrong key)
         """
         # Decode base 64
         enc_secret = base64.b64decode(enc_secret)
@@ -123,7 +125,8 @@ class Encryption():
 
         # Validate all padding bytes match
         if data[-padding:] != bytes([padding]) * padding:
-            raise ValueError("Invalid padding - data may be corrupted or key is wrong")
+            raise ValueError("Invalid padding - data may "
+                             "be corrupted or key is wrong")
 
         # Reset salted key
         self.set_salt()

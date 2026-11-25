@@ -17,7 +17,8 @@ class SecretModel(Base):
     _salt = Column(String)
     category_id = Column(Integer)
 
-    def __init__(self, name, url='', login='', password='', notes='', category_id=None):
+    def __init__(self, name, url='', login='', password='', 
+                 notes='', category_id=None):
         # Set class level vars
         self.salt = ''  # Will call the setter and set a salt automatically
         self.name = name

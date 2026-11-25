@@ -52,7 +52,7 @@ def query_vault_db():
         return True
     except exc.DatabaseError:
         # print('Database Error: %s' % e)
-        # print('Most likely, this error is due to an invalid database key 
+        # print('Most likely, this error is due to an invalid database key
         # or a mis-configured sqlcipher3/libsqlcipher')
         return False
 
@@ -72,7 +72,7 @@ def attempt_dummy_encrypted_db(db_path):
     """ Create a dummy encrypted database """
 
     engine = create_engine(
-        'sqlite+pysqlcipher://:' + create_temporary_secret() 
+        'sqlite+pysqlcipher://:' + create_temporary_secret()
         + '@//' + db_path,
         module=sqlcipher3)
     # engine = create_engine('sqlite:///' + db_path)
@@ -111,8 +111,9 @@ if __name__ == '__main__':
     if verify_if_dummy_db_is_encrypted(temp_db_file):
         print('* Check if dummy database is encrypted: OK')
     else:
-        print('!!! Check if dummy database is encrypted: ERROR '
-        '(Dummy database is not encrypted)')
+        print(
+            '!!! Check if dummy database is encrypted: ERROR '
+            '(Dummy database is not encrypted)')
 
     load_config()
     set_vault_path()
