@@ -25,14 +25,12 @@ jobs:
           python -m pip install --upgrade pip "setuptools>=84.1.0"
           pip install -r requirements-test.txt
           pip install .
-      - name: python-flake8
-        uses: julianwachholz/flake8-action@75749239077651dfd0ecbe405899cdcb0673ee8f
-        with:
-          checkName: python-flake8
-      - name: gh-action-pip-audit
-        uses: pypa/gh-action-pip-audit@d499194be74aeb3bc7dbed3a224a87e1831132c7
-      - name: Bandit Action
-        uses: mdegis/bandit-action@851671cb116c1d3638de86975006bddf2619362a
+      - name: Run flake8
+        run: flake8
+      - name: Run pip-audit
+        run: pip-audit
+      - name: Run bandit
+        run: bandit
       - name: Run pytest
         run: |
           coverage run --source=. -m pytest
