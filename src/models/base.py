@@ -23,7 +23,7 @@ def get_session(fresh=False):
     """
         Return SQLAlchemy session
     """
- 
+
     if global_scope['db_file'] is None:
         raise RuntimeError('`db_file` is not defined in the global scope')
 
